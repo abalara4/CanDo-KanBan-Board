@@ -3,6 +3,9 @@ import { User } from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+const router = Router();
+
+// Login function
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
@@ -29,8 +32,6 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Internal server error' }); // Handle server errors
   }
 };
-
-const router = Router();
 
 // POST /login - Login a user
 router.post('/login', login);
