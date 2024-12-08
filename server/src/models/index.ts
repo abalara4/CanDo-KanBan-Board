@@ -20,23 +20,20 @@ console.log('DB_NAME:', process.env.DB_NAME);
 console.log('DB_USER:', process.env.DB_USER);
 console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
 
-let sequelize: Sequelize;
+let sequelize;
 
 if (process.env.DB_URL) {
   sequelize = new Sequelize(process.env.DB_URL);
 } else {
-  // Check if required environment variables are set
-  if (!process.env.DB_NAME || !process.env.DB_USER || !process.env.DB_PASSWORD) {
-    throw new Error('Database configuration is incomplete. Please check your environment variables.');
-  }
-
-  sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST || 'localhost',
-    dialect: 'postgres',
-    dialectOptions: {
-      decimalNumbers: true,
+  sequelize = new Sequelize(
+    process.env.DB_NAME || 'default_db_name',
+    process.env.DB_USER || 'default_db_user',
+    process.env.DB_PASSWORD || 'default_db_password',
+    {
+      host: 'localhost',
+      dialect: 'postgres',
     },
-  });
+  );
 }
 
 // Define models and associations

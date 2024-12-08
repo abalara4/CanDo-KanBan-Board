@@ -4,12 +4,21 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import routes from './routes/index.js';
-import { sequelize } from './models/index.js';
+import { Sequelize } from 'sequelize';
+
+const sequelize: Sequelize = new Sequelize(process.env.DATABASE_URL || '', {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  logging: false,
+});
 
 const app = express();
 
 // Port configuration - Render will provide the port, fallback to 3001 locally
 const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 // Middleware
 app.use(cors()); // Allow cross-origin requests (optional, useful for frontend-backend)
